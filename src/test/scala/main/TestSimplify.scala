@@ -7,10 +7,170 @@ import simplifier.BOULIER_SOURISSEAU._
 
 class TestSimplify {
   @Test
-  def t0(){
+    def t_vide(){
+    val simp= new MySimplifier
+    val p= List()
+    val pres= List()
+    
+    assertEquals(pres, simp.simplify(p))
+    }  
+  @Test
+    def t_etoile(){
     val simp= new MySimplifier
     val p= List(Star)
     val pres= List(Star)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_plus(){
+    val simp= new MySimplifier
+    val p= List(Plus)
+    val pres= List(Plus)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_Qmark(){
+    val simp= new MySimplifier
+    val p= List(Qmark)
+    val pres= List(Qmark)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_one_char(){
+    val simp= new MySimplifier
+    val p= List(Char('a'))
+    val pres= List(Char('a'))
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_PlusPlus(){
+    val simp= new MySimplifier
+    val p= List(Plus, Plus)
+    val pres= List(Qmark,Plus)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_QmarkPlus(){
+    val simp= new MySimplifier
+    val p= List(Qmark, Plus)
+    val pres= List(Qmark,Plus)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_PlusQmark(){
+    val simp= new MySimplifier
+    val p= List(Plus, Qmark)
+    val pres= List(Qmark,Plus)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_QmarkQmark() {
+    val simp= new MySimplifier
+    val p= List(Qmark, Qmark)
+    val pres= List(Qmark,Qmark)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_StarPlus(){
+    val simp= new MySimplifier
+    val p= List(Star, Plus)
+    val pres= List(Plus)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_CharPlus(){
+    val simp= new MySimplifier
+    val p= List(Char('a'),Plus)
+    val pres= List(Char('a'),Plus)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_StarQmark{
+    val simp= new MySimplifier
+    val p= List(Star, Qmark)
+    val pres= List(Plus)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_CharQmark{
+    val simp= new MySimplifier
+    val p= List(Char('a'), Qmark)
+    val pres= List(Char('a'), Qmark)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_PlusStar{
+    val simp= new MySimplifier
+    val p= List(Plus, Star)
+    val pres= List(Plus)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_QmarkStar{
+    val simp= new MySimplifier
+    val p= List(Qmark, Star)
+    val pres= List(Plus)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_StarStar{
+    val simp= new MySimplifier
+    val p= List(Star, Star)
+    val pres= List(Star)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_CharStar{
+    val simp= new MySimplifier
+    val p= List(Char('a'), Star)
+    val pres= List(Char('a'), Star)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_PlusChar{
+    val simp= new MySimplifier
+    val p= List(Plus, Char('a'))
+    val pres= List(Plus, Char('a'))
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_QmarkChar{
+    val simp= new MySimplifier
+    val p= List(Qmark, Char('a'))
+    val pres= List(Qmark, Char('a'))
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_StarChar{
+    val simp= new MySimplifier
+    val p= List(Star, Char('a'))
+    val pres= List(Star, Char('a'))
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_CharChar{
+    val simp= new MySimplifier
+    val p= List(Char('b'), Char('a'))
+    val pres= List(Char('b'), Char('a'))
     
     assertEquals(pres, simp.simplify(p))
   }

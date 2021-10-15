@@ -12,6 +12,13 @@ class MySimplifier extends Simplifier{
 		}
 	}
 
+	// |    || +  | ?  | *  | a  |
+	// |----++----+----+----+----|
+	// | +  || ?+ | ?+ | +  | +a |
+	// | ?  || ?+ | ?? | +  | ?a |
+	// | *  || +  | +  | *  | *a |
+	// | a  || a+ | a? | a* | aa |
+
 	def head_simplifier(h1: Symbol, h2: Symbol) : List[Symbol] = {
 		(h1, h2) match {
 			case (Qmark, Star) => List(Plus)

@@ -52,6 +52,52 @@ class TestSimplify {
 
     assertEquals(pres, simp.simplify(p))
   }
+
+  @Test
+  def tb_6() {
+    val simp = new MySimplifier
+    val p = List(Plus, Qmark, Qmark)
+    val pres = List(Qmark, Qmark, Plus)
+
+    assertEquals(pres, simp.simplify(p))
+  }
+
+  @Test
+  def tb_7() {
+    val simp = new MySimplifier
+    val p = List(Plus, Star, Qmark)
+    val pres = List(Qmark, Plus)
+
+    assertEquals(pres, simp.simplify(p))
+  }
+
+  @Test
+  def tb_random() {
+    val simp = new MySimplifier
+    val p = List(Char('a'), Char('z'), Char('t'), Char('y'), Char('('), Char('u'), Char('-'), Char('è'), Char('m'), Char('ù'), Char('p'), Char('^'))
+    val pres = List(Char('a'), Char('z'), Char('t'), Char('y'), Char('('), Char('u'), Char('-'), Char('è'), Char('m'), Char('ù'), Char('p'), Char('^'))
+
+    assertEquals(pres, simp.simplify(p))
+  }
+
+@Test
+  def tb_9() {
+    val simp = new MySimplifier
+    val p = List(Qmark, Plus, Plus, Plus)
+    val pres = List(Qmark, Qmark, Qmark, Plus)
+
+    assertEquals(pres, simp.simplify(p))
+  }
+
+@Test
+  def tb_10() {
+    val simp = new MySimplifier
+    val p = List(Qmark, Plus, Star, Plus, Qmark)
+    val pres = List(Qmark, Qmark, Qmark, Plus)
+
+    assertEquals(pres, simp.simplify(p))
+  }
+
   @Test
     def tb_11() {
     val simp = new MySimplifier

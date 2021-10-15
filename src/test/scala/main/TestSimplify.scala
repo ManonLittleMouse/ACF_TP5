@@ -3,7 +3,7 @@ package main
 import library._
 import org.junit.Assert._
 import org.junit.Test
-import simplifier.<BOULIER_SOURISSEAU>._
+import simplifier.BOULIER_SOURISSEAU._
 
 class TestSimplify {
   @Test

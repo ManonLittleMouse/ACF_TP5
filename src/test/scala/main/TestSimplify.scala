@@ -95,7 +95,7 @@ class TestSimplify {
     assertEquals(pres, simp.simplify(p))
   }
   @Test
-  def t_StarQmark{
+  def t_StarQmark(){
     val simp= new MySimplifier
     val p= List(Star, Qmark)
     val pres= List(Plus)
@@ -103,7 +103,7 @@ class TestSimplify {
     assertEquals(pres, simp.simplify(p))
   }
   @Test
-  def t_CharQmark{
+  def t_CharQmark(){
     val simp= new MySimplifier
     val p= List(Char('a'), Qmark)
     val pres= List(Char('a'), Qmark)
@@ -111,7 +111,7 @@ class TestSimplify {
     assertEquals(pres, simp.simplify(p))
   }
   @Test
-  def t_PlusStar{
+  def t_PlusStar(){
     val simp= new MySimplifier
     val p= List(Plus, Star)
     val pres= List(Plus)
@@ -119,7 +119,7 @@ class TestSimplify {
     assertEquals(pres, simp.simplify(p))
   }
   @Test
-  def t_QmarkStar{
+  def t_QmarkStar(){
     val simp= new MySimplifier
     val p= List(Qmark, Star)
     val pres= List(Plus)
@@ -127,7 +127,7 @@ class TestSimplify {
     assertEquals(pres, simp.simplify(p))
   }
   @Test
-  def t_StarStar{
+  def t_StarStar(){
     val simp= new MySimplifier
     val p= List(Star, Star)
     val pres= List(Star)
@@ -135,7 +135,7 @@ class TestSimplify {
     assertEquals(pres, simp.simplify(p))
   }
   @Test
-  def t_CharStar{
+  def t_CharStar(){
     val simp= new MySimplifier
     val p= List(Char('a'), Star)
     val pres= List(Char('a'), Star)
@@ -143,7 +143,7 @@ class TestSimplify {
     assertEquals(pres, simp.simplify(p))
   }
   @Test
-  def t_PlusChar{
+  def t_PlusChar(){
     val simp= new MySimplifier
     val p= List(Plus, Char('a'))
     val pres= List(Plus, Char('a'))
@@ -151,7 +151,7 @@ class TestSimplify {
     assertEquals(pres, simp.simplify(p))
   }
   @Test
-  def t_QmarkChar{
+  def t_QmarkChar(){
     val simp= new MySimplifier
     val p= List(Qmark, Char('a'))
     val pres= List(Qmark, Char('a'))
@@ -159,7 +159,7 @@ class TestSimplify {
     assertEquals(pres, simp.simplify(p))
   }
   @Test
-  def t_StarChar{
+  def t_StarChar(){
     val simp= new MySimplifier
     val p= List(Star, Char('a'))
     val pres= List(Star, Char('a'))
@@ -167,7 +167,7 @@ class TestSimplify {
     assertEquals(pres, simp.simplify(p))
   }
   @Test
-  def t_CharChar{
+  def t_CharChar(){
     val simp= new MySimplifier
     val p= List(Char('b'), Char('a'))
     val pres= List(Char('b'), Char('a'))

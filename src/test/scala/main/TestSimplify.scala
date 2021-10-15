@@ -6,23 +6,7 @@ import org.junit.Test
 import simplifier.BOULIER_SOURISSEAU._
 
 class TestSimplify {
-  @Test
-    def t_vide(){
-    val simp= new MySimplifier
-    val p= List()
-    val pres= List()
-    
-    assertEquals(pres, simp.simplify(p))
-    }
   
-  @Test
-    def t_etoile() {
-    val simp= new MySimplifier
-    val p= List(Star)
-    val pres= List(Star)
-    
-    assertEquals(pres, simp.simplify(p))
-  }
 
   @Test
     def tb_1() {
@@ -68,9 +52,25 @@ class TestSimplify {
 
     assertEquals(pres, simp.simplify(p))
   }
-
   @Test
-  def t_plus(){
+    def t_Empty(){
+    val simp= new MySimplifier
+    val p= List()
+    val pres= List()
+    
+    assertEquals(pres, simp.simplify(p))
+    }
+  
+  @Test
+    def t_Star() {
+    val simp= new MySimplifier
+    val p= List(Star)
+    val pres= List(Star)
+    
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+  def t_Plus(){
     val simp= new MySimplifier
     val p= List(Plus)
     val pres= List(Plus)
@@ -86,7 +86,7 @@ class TestSimplify {
     assertEquals(pres, simp.simplify(p))
   }
   @Test
-  def t_one_char(){
+  def t_OneChar(){
     val simp= new MySimplifier
     val p= List(Char('a'))
     val pres= List(Char('a'))

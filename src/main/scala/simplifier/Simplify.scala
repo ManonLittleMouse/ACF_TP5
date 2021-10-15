@@ -22,6 +22,7 @@ class MySimplifier extends Simplifier{
 
 			case (Plus, Plus) => List(Qmark, Plus)
 			case (Plus, Qmark) => List(Qmark, Plus)
+			
 			case (_, _) => List(h1, h2)
 		}
 	}

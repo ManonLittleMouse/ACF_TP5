@@ -1,4 +1,4 @@
-package simplifier.<LE_NOM_DE_VOTRE_BINOME>
+package simplifier.<BOULIER_SOURISSEAU>
 
 import library._
 

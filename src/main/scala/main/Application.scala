@@ -1,6 +1,6 @@
 package main
 
-import simplifier.<LE_NOM_DE_VOTRE_BINOME>.MySimplifier
+import simplifier.<BOULIER_SOURISSEAU>.MySimplifier
 
 import scala.io.StdIn.readLine
 //import isabelleAndScala.Converter

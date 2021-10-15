@@ -53,6 +53,47 @@ class TestSimplify {
     assertEquals(pres, simp.simplify(p))
   }
   @Test
+    def tb_11() {
+    val simp = new MySimplifier
+    val p = List(Star, Star, Star)
+    val pres = List(Star)
+
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+    def tb_12() {
+    val simp = new MySimplifier
+    val p = List(Star, Qmark , Star)
+    val pres = List(Plus)
+
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+    def tb_13() {
+    val simp = new MySimplifier
+    val p = List(Qmark, Star, Star)
+    val pres = List(Plus)
+
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+    def tb_14() {
+    val simp = new MySimplifier
+    val p = List(Star, Plus, Qmark)
+    val pres = List(Qmark, Plus)
+
+    assertEquals(pres, simp.simplify(p))
+  }
+  @Test
+    def tb_15() {
+    val simp = new MySimplifier
+    val p = List(Star, Qmark, Qmark)
+    val pres = List(Qmark, Plus)
+
+    assertEquals(pres, simp.simplify(p))
+  }
+  
+  @Test
     def t_Empty(){
     val simp= new MySimplifier
     val p= List()

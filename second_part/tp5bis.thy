@@ -159,8 +159,9 @@ lemma acceptVide2: "(\<forall> w. w\<noteq>[] \<longrightarrow> \<not>(accept p 
     apply (case_tac "([x1] \<noteq> []) \<and> (accept [Char x1] [x1])")
      apply blast
     apply simp
-  try
-  oops
+   apply (metis accept.simps(11) acceptVide2_aux list.exhaust)
+  apply (metis accept.simps(11) accept.simps(9) acceptVide2_aux list.exhaust list.simps(3))
+  done
 
 (* Le seul pattern n'acceptant que le langage ? est ? *)
 lemma acceptQmark: "(\<forall> w. (accept [Qmark] w = (accept p w))) \<longrightarrow> p=[Qmark]"

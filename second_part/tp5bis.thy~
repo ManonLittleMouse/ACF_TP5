@@ -39,20 +39,12 @@ value "accept [Plus,Star,Star] []"
 (* ----------------------------- Votre TP commence ici! ---------------------------------------- *)
 fun simplify::"pattern \<Rightarrow> pattern"
   where
-"simplify [] = []" |
-"simplify [h1] = [h1]" |
-"simplify (Qmark#Star#q) = simplify(Plus#q)"|
-"simplify (Star#Qmark#q) = simplify(Plus#q)"|
-"simplify (Star#Plus#q) = simplify(Plus#q)"|
-"simplify (Plus#Star#q) = simplify(Plus#q)"|
-"simplify (Star#Star#q) = simplify(Star#q)"|
-"simplify (Plus#Plus#q) = Qmark#(simplify(Plus#q))"|
-"simplify (Plus#Qmark#q) = Qmark#(simplify(Plus#q))"|
-"simplify (h1#h2#q) = h1#(simplify(h2#q))"
+(* TODO *)
+"simplify p = []"
 
 
 (* Le lemme de correction de la fonction simplify... Pour le prouver voir les lemmes intermédiaires à définir, plus bas. *)
-lemma "(accept glob word) = (accept (simplify glob) word)"
+lemma " ? ? ?"
   nitpick
   quickcheck [tester=narrowing]
   oops
@@ -105,61 +97,10 @@ export_code simplify in Scala
 
 (* Le pattern vide n'accepte que le mot vide *)
 lemma acceptVide: "(accept [] w) \<longrightarrow> w=[]"
-  apply (case_tac w)
-   apply simp
-  apply simp
-  done
-
-(*
-lemma interVide1: "p = [q] \<longrightarrow> (\<exists>w. (w\<noteq>[]) \<and> (accept p w))"
-  apply (case_tac q)
-     apply auto
-   prefer 2
-   apply (case_tac "accept [Qmark] [(CHR ''a'')]")
-    prefer 2
-    apply simp
-   apply blast
-  apply (case_tac "accept [Char x1] [x1]")
-   apply blast
-  apply auto
-  done  
-
-lemma aux1: "\<exists>w. accept p w"
-  apply (induct p)
-   apply (case_tac "accept [] []")
-    apply blast
-   apply simp
-  apply (case_tac a)
-  
-
-
-lemma interVideN: "p = x#xs \<longrightarrow> (\<exists>w. (List.length w \<ge> 1) \<and> (accept p w))"
-  apply (case_tac x)
   oops
-*)
-
-lemma acceptVide2_aux: "((accept p w) \<and> (w \<noteq> [])) \<longrightarrow> (p \<noteq> [])"
-  apply (case_tac w)
-   apply simp
-  apply (case_tac p)
-   apply simp
-  apply simp
-  done
-
+  
 (* Le seul pattern n'acceptant que le mot vide est le pattern vide *)
 lemma acceptVide2: "(\<forall> w. w\<noteq>[] \<longrightarrow> \<not>(accept p w)) \<longrightarrow> p=[]"
-  apply (induct p)
-   apply simp
-  apply (case_tac a)
-     apply auto
-     prefer 3
-     apply (case_tac "([CHR ''a''] \<noteq> []) \<and> (accept [Qmark] [CHR ''a''])")
-      apply blast
-     apply simp
-    apply (case_tac "([x1] \<noteq> []) \<and> (accept [Char x1] [x1])")
-     apply blast
-    apply simp
-  try
   oops
 
 (* Le seul pattern n'acceptant que le langage ? est ? *)

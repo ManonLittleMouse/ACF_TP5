@@ -159,16 +159,27 @@ lemma acceptVide2: "(\<forall> w. w\<noteq>[] \<longrightarrow> \<not>(accept p 
     apply (case_tac "([x1] \<noteq> []) \<and> (accept [Char x1] [x1])")
      apply blast
     apply simp
-  try
-  oops
+   apply (metis accept.simps(11) acceptVide2_aux list.exhaust)
+  apply (metis accept.simps(11) accept.simps(9) acceptVide2_aux list.exhaust list.simps(3))
+  done
 
 (* Le seul pattern n'acceptant que le langage ? est ? *)
 lemma acceptQmark: "(\<forall> w. (accept [Qmark] w = (accept p w))) \<longrightarrow> p=[Qmark]"
-  oops
+  apply (induct p)
+  using accept.simps(1) accept.simps(6) apply blast
+  apply (case_tac "accept [Qmark] (x1#x2#[]) = accept (a#p)(x1#x2#[])")
+   prefer 2
+   apply blast
+  apply (case_tac "accept [Qmark] (x1#x2#[])")
+   apply simp
+  by (metis accept.simps(11) accept.simps(2) accept.simps(5) accept.simps(7) accept.simps(9) acceptVide acceptVide2 basicPattern.simps(1) basicPattern.simps(2) basicPattern.simps(3) list.exhaust symbol.exhaust)
+
 
 (* Si le pattern commence par un caractère ou un point d'interrogation alors le mot accepté
    commence forcément par un caractère (il ne peut être vide) *)
 lemma charAndQmarkRemoval: "((x\<noteq>Star) \<and> (x\<noteq> Plus) \<and> (accept (x#r) m)) \<longrightarrow> (\<exists> x2 r2. m=x2#r2 \<and> (accept r r2))"
+  apply (case_tac m)
+  
   oops
   
 (* Si le pattern commence par une étoile, on peut soit l'oublier soit oublier le premier caractère du mot accepté *)

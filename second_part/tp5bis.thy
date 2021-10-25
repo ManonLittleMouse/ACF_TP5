@@ -110,33 +110,6 @@ lemma acceptVide: "(accept [] w) \<longrightarrow> w=[]"
   apply simp
   done
 
-(*
-lemma interVide1: "p = [q] \<longrightarrow> (\<exists>w. (w\<noteq>[]) \<and> (accept p w))"
-  apply (case_tac q)
-     apply auto
-   prefer 2
-   apply (case_tac "accept [Qmark] [(CHR ''a'')]")
-    prefer 2
-    apply simp
-   apply blast
-  apply (case_tac "accept [Char x1] [x1]")
-   apply blast
-  apply auto
-  done  
-
-lemma aux1: "\<exists>w. accept p w"
-  apply (induct p)
-   apply (case_tac "accept [] []")
-    apply blast
-   apply simp
-  apply (case_tac a)
-  
-
-
-lemma interVideN: "p = x#xs \<longrightarrow> (\<exists>w. (List.length w \<ge> 1) \<and> (accept p w))"
-  apply (case_tac x)
-  oops
-*)
 
 lemma acceptVide2_aux: "((accept p w) \<and> (w \<noteq> [])) \<longrightarrow> (p \<noteq> [])"
   apply (case_tac w)
@@ -165,66 +138,184 @@ lemma acceptVide2: "(\<forall> w. w\<noteq>[] \<longrightarrow> \<not>(accept p 
 
 (* Le seul pattern n'acceptant que le langage ? est ? *)
 lemma acceptQmark: "(\<forall> w. (accept [Qmark] w = (accept p w))) \<longrightarrow> p=[Qmark]"
-  oops
+  apply (induct p)
+  using accept.simps(1) accept.simps(6) apply blast
+  apply (case_tac "accept [Qmark] (x1#x2#[]) = accept (a#p)(x1#x2#[])")
+   prefer 2
+   apply blast
+  apply (case_tac "accept [Qmark] (x1#x2#[])")
+   apply simp
+  apply (case_tac a)
+     apply (metis (mono_tags, hide_lams) accept.simps(1) accept.simps(5) accept.simps(7) basicPattern.simps(1) basicPattern.simps(2) basicPattern.simps(8))
+    apply (metis (full_types) accept.simps(11) accept.simps(2) accept.simps(7) acceptVide acceptVide2 neq_Nil_conv)
+   apply (metis accept.simps(7) acceptVide acceptVide2)
+  by (metis (full_types) accept.simps(7) accept.simps(9) acceptVide acceptVide2 list.distinct(1))
 
 (* Si le pattern commence par un caractère ou un point d'interrogation alors le mot accepté
    commence forcément par un caractère (il ne peut être vide) *)
 lemma charAndQmarkRemoval: "((x\<noteq>Star) \<and> (x\<noteq> Plus) \<and> (accept (x#r) m)) \<longrightarrow> (\<exists> x2 r2. m=x2#r2 \<and> (accept r r2))"
-  oops
+  apply (case_tac m)
+   apply (case_tac[1-] x)
+         apply simp
+        apply simp
+       apply simp
+      apply simp
+     apply simp
+    apply simp
+   apply simp
+  apply simp
+  done
+
   
 (* Si le pattern commence par une étoile, on peut soit l'oublier soit oublier le premier caractère du mot accepté *)
 lemma patternStartsWithStar: "((accept (Star#r) m)) \<longrightarrow> ((accept r m) \<or> (\<exists> x2 r2. m=x2#r2 \<and> (accept (Star#r) r2)))"
-  oops
+  apply (case_tac m)
+   apply simp
+   apply (case_tac r)
+    apply simp
+   apply simp
+  apply auto
+  apply (case_tac "accept r (a # list)")
+   apply simp
+  apply (case_tac "accept (Star # r) list")
+   apply simp
+  apply auto
+  by (metis accept.simps(10) accept.simps(11) accept.simps(2) neq_Nil_conv)
     
 (* On peut compléter à gauche n'importe quel pattern par une étoile *)
 lemma completePatternWithStar: "(accept r m) \<longrightarrow> (accept (Star#r) m)"
-  oops
-    
+  apply (case_tac r)
+   apply simp
+  by (metis (full_types) accept.simps(10) accept.simps(11) list.exhaust)
+
 lemma completePatternWithStar2: "(accept r m) \<longrightarrow> (accept (Star#r) (m1@m))"
-  oops
-   
+  apply (case_tac "accept [Star] m1")
+   apply auto
+  apply (induct m1)
+   apply simp
+  using completePatternWithStar
+   apply simp
+  by (metis (full_types) accept.simps(11) accept.simps(2) append_Cons neq_Nil_conv)
 
 (* On peut oublier une étoile dès qu'il y en a une juste après *)
 lemma forgetOneStar:"(accept (Star#(Star#r)) w) = (accept (Star#r) w)"
-  oops
-  
+  apply (induct w)
+   apply simp
+  by (metis (full_types) accept.simps(1) accept.simps(11) append_Nil2 completePatternWithStar2 list.exhaust)
 
 (* Etoile suivie de point d'interrogation est équivalent à point d'interrogation étoile *)
 lemma starQmark:"((accept (Star#(Qmark#r)) w) = (accept (Qmark#(Star#r)) w))"
-  oops
+  apply (induct w)
+   apply simp
+  using charAndQmarkRemoval
+  using completePatternWithStar
+  using forgetOneStar
+  using patternStartsWithStar
+  apply fastforce
+  done
   
 (* Si deux patterns sont équivalents on peut les compléter à gauche... *)
 
 (* ... par une étoile *)
 lemma equivalentPatternStar:"((\<forall> w1. (accept p1 w1) = (accept p2 w1))) \<longrightarrow> ((accept (Star#p1) w) = (accept (Star#p2) w))"
-  oops
-    
+  apply (induct w)
+  using completePatternWithStar
+  using patternStartsWithStar
+   apply blast
+  by (smt accept.simps(11) completePatternWithStar forgetOneStar list.sel(3) patternStartsWithStar)
+
 (* ... par un caractère (identique) *)
 lemma equivalentPatternChar:"((\<forall> w. (accept p1 w) = (accept p2 w))) \<longrightarrow> ((accept ((Char x)#p1) w) = (accept ((Char x)#p2) w))"
-  oops
-  
+  apply (induct w)
+   apply simp
+  apply simp
+  done
+
 (* ... par un point d'interrogation *)
 lemma equivalentPatternQmark:"((\<forall> w. (accept p1 w) = (accept p2 w))) \<longrightarrow> ((accept (Qmark#p1) w) = (accept (Qmark#p2) w))"
-  oops
+  apply (induct w)
+   apply simp
+  apply simp
+  done
   
 (* Par un plus *)
 lemma equivalentPatternPlus:"((\<forall> w. (accept p1 w) = (accept p2 w))) \<longrightarrow> ((accept (Plus#p1) w) = (accept (Plus#p2) w))"
-  oops
+  apply (induct w)
+   apply simp
+  using equivalentPatternStar
+  apply simp
+  done  
   
 lemma plusStarQmark:"((accept (Star#(Qmark#r)) w) = (accept (Plus#r) w))"
-  oops
+  apply (induct w)
+   apply simp
+  using accept.simps(7) accept.simps(9) starQmark by blast
   
 
 lemma plusStarStar:"((accept (Plus#(Star#r)) w) = (accept (Plus#r) w))"
-  oops
+  apply (induct w)
+   apply simp
+  using forgetOneStar
+  apply simp
+  done
   
 
 lemma plusPlus1:"((accept (Plus#(Plus#r)) w) = (accept (Qmark#(Plus#r)) w))"
-  oops
+  apply (induct w)
+   apply simp
+  by (metis (full_types) accept.simps(11) accept.simps(7) accept.simps(9) patternStartsWithStar plusStarQmark)
   
+
+lemma correction_direct:"(accept glob word) \<longrightarrow> (accept (simplify glob) word)"
+  apply (induct glob)
+   apply simp
+  apply (case_tac a)
+     apply (induct word)
+      apply simp
+
+      
+  
+
+(*
+  apply (induct word)
+   apply (induct glob)
+    apply simp
+   apply (case_tac a)
+      apply simp
+     prefer 2
+     apply simp
+    prefer 2
+    using accept.simps(8) apply blast
+     apply simp
+     apply (metis charAndQmarkRemoval neq_Nil_conv patternStartsWithStar simplify.simps(2) simplify.simps(5) simplify.simps(7))
+    apply (case_tac glob)
+     apply simp
+    apply (case_tac aa)
+       apply (case_tac "a = x1")
+    prefer 2
+        apply simp
+*)
+
+
+    
+    
+
+
+
+
 (* Le lemme de correction final *)
-lemma correction:""
+lemma correction:"(accept glob word) = (accept (simplify glob) word)"
+(*  using acceptVide acceptVide2 acceptQmark charAndQmarkRemoval patternStartsWithStar completePatternWithStar completePatternWithStar2 forgetOneStar starQmark equivalentPatternStar equivalentPatternQmark equivalentPatternPlus equivalentPatternChar plusStarQmark plusStarStar plusPlus1 *)
+  apply (induct word)
+   apply (case_tac glob)
+    apply simp
+   apply (case_tac a)
+      apply (metis (full_types) accept.simps(4) list.exhaust simplify.simps(10) simplify.simps(2))
+     apply auto
   oops
+
+
+  
 
   
 end
